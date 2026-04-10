@@ -19,10 +19,17 @@
   },
   "homepage": "https://github.com/ATripathi13/AI-Search-Engine#readme",
   "devDependencies": {
+    "@types/ioredis-mock": "^8.2.7",
     "@types/node": "^25.5.2",
     "fast-check": "^4.6.0",
+    "ioredis-mock": "^8.13.1",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4"
+  },
+  "dependencies": {
+    "ioredis": "^5.10.1",
+    "js-tiktoken": "^1.0.21",
+    "tiktoken": "^1.0.22"
   }
 }
