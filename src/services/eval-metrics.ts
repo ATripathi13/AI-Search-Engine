@@ -5,11 +5,11 @@
 export function precisionAtK(retrieved: string[], relevant: Set<string>, k: number): number {
     if (k <= 0) return 0;
     const topK = retrieved.slice(0, k);
-    let hits = 0;
+    const hits = new Set<string>();
     for (const item of topK) {
-        if (relevant.has(item)) hits++;
+        if (relevant.has(item)) hits.add(item);
     }
-    return hits / k;
+    return hits.size / k;
 }
 
 /**
@@ -20,11 +20,11 @@ export function recallAtK(retrieved: string[], relevant: Set<string>, k: number)
     if (relevant.size === 0) return 0;
     if (k <= 0) return 0;
     const topK = retrieved.slice(0, k);
-    let hits = 0;
+    const hits = new Set<string>();
     for (const item of topK) {
-        if (relevant.has(item)) hits++;
+        if (relevant.has(item)) hits.add(item);
     }
-    return hits / relevant.size;
+    return hits.size / relevant.size;
 }
 
 /**

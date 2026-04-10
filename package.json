@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "test": "vitest run"
   },
   "repository": {
@@ -13,16 +16,21 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/ATripathi13/AI-Search-Engine/issues"
   },
   "homepage": "https://github.com/ATripathi13/AI-Search-Engine#readme",
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "@tailwindcss/typography": "^0.5.19",
     "@types/ioredis-mock": "^8.2.7",
     "@types/node": "^25.5.2",
+    "@types/react": "19.2.14",
+    "autoprefixer": "^10.4.27",
     "fast-check": "^4.6.0",
     "ioredis-mock": "^8.13.1",
+    "postcss": "^8.5.9",
+    "tailwindcss": "^4.2.2",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4"
@@ -31,7 +39,10 @@
     "@qdrant/js-client-rest": "^1.17.0",
     "ioredis": "^5.10.1",
     "js-tiktoken": "^1.0.21",
+    "next": "^16.2.3",
     "p-limit": "^7.3.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "tiktoken": "^1.0.22"
   }
 }
