@@ -28,8 +28,10 @@
     "vitest": "^4.1.4"
   },
   "dependencies": {
+    "@qdrant/js-client-rest": "^1.17.0",
     "ioredis": "^5.10.1",
     "js-tiktoken": "^1.0.21",
+    "p-limit": "^7.3.0",
     "tiktoken": "^1.0.22"
   }
 }
