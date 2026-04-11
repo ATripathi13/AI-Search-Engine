@@ -45,3 +45,5 @@ export class VectorSearch {
         });
     }
 }
+
+export const defaultVectorSearch = new VectorSearch();
