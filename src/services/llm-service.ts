@@ -1,3 +1,4 @@
+import OpenAI from 'openai';
 import { ModelRouter, SupportedModel } from './model-router';
 import { PipelineMetrics } from '../types';
 
@@ -66,7 +67,7 @@ export class LLMReasoningService {
     }
 
     /**
-     * Mocks a Streaming SSE response returning tokens iteratively
+     * Integrates absolute native OpenAI APIs retrieving prompt boundaries actively natively.
      */
     async *generateStreamingResponse(
         query: string,
@@ -80,19 +81,35 @@ export class LLMReasoningService {
             throw new Error("Context window budget exceeded by system prompt structure");
         }
 
-        const responseStr = `This is a generated answer from ${model} for the query: ${query}. It uses strict citations based on context.`;
+        const apiKey = process.env.OPENAI_API_KEY;
+        if (!apiKey || apiKey.includes('YOUR_KEY_HERE')) {
+            throw new Error("Missing correct OPENAI_API_KEY mapping definitions inside .env constraints");
+        }
+
+        const openai = new OpenAI({ apiKey });
+        const liveModel = model === 'gpt-4o' ? 'gpt-4o' : 'gpt-4o-mini';
+
+        const stream = await openai.chat.completions.create({
+            model: liveModel,
+            messages: [
+                { role: 'system', content: systemPrompt },
+                { role: 'user', content: query }
+            ],
+            stream: true,
+            max_tokens: this.tokenBudgets.generation
+        });
+
+        let generatedTokens = 0;
+
+        for await (const chunk of stream) {
+            const content = chunk.choices[0]?.delta?.content || '';
+            if (content) {
+                generatedTokens += this.estimateTokens(content);
+                yield content;
+            }
+        }
 
         if (!metrics.token_counts) metrics.token_counts = {};
-        metrics.token_counts.generation = this.estimateTokens(responseStr);
-
-        if (metrics.token_counts.generation > this.tokenBudgets.generation) {
-            throw new Error("Generation budget exceeded");
-        }
-
-        const words = responseStr.split(' ');
-        for (const word of words) {
-            await new Promise(res => setTimeout(res, 10)); // Simulated network streaming latency
-            yield word + ' ';
-        }
+        metrics.token_counts.generation = generatedTokens;
     }
 }
