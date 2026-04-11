@@ -1,7 +1,17 @@
 import { QdrantClient } from '@qdrant/js-client-rest';
 
+/**
+ * Parses strict environment tokens instantiating the cloud boundaries connecting native indexing databases.
+ */
+export function getQdrantClient(): QdrantClient {
+    const url = process.env.QDRANT_URL || 'http://localhost:6333';
+    const apiKey = process.env.QDRANT_API_KEY || undefined;
+
+    return new QdrantClient({ url, apiKey });
+}
+
 export class VectorSearch {
-    constructor(private client: QdrantClient, private collectionName: string) { }
+    constructor(private client: QdrantClient = getQdrantClient(), private collectionName: string = "engine_chunks") { }
 
     async configureCollection(vectorSize: number = 1536) {
         try {
